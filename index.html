@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#171827">
+  <meta name="description" content="Xena AI Studio - studio personal pentru personaje, referințe și proiecte foto.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>Xena AI Studio</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✦</span><div><strong>XENA AI STUDIO</strong><small>Creative photo workspace</small></div></div>
+    <button class="icon-btn" id="installBtn" hidden aria-label="Instalează aplicația">⇩</button>
+  </header>
+
+  <main>
+    <section id="view-home" class="view active">
+      <div class="hero">
+        <p class="eyebrow">BINE AI VENIT</p>
+        <h1>Ideile tale.<br><span>Studioul tău.</span></h1>
+        <p class="muted">Organizează personaje, fotografii de referință și idei pentru creațiile tale.</p>
+        <button class="primary" data-go="creator">＋ Creează un proiect</button>
+      </div>
+      <div class="section-head"><h2>Studio</h2><span class="muted" id="homeStats">0 personaje · 0 imagini</span></div>
+      <div class="quick-grid">
+        <button class="tile" data-go="creator"><span>✧</span><b>Prompt Studio</b><small>Construiește o descriere</small></button>
+        <button class="tile" data-go="characters"><span>♙</span><b>Personaje</b><small>Gestionează referințele</small></button>
+        <button class="tile" data-go="library"><span>▧</span><b>Bibliotecă</b><small>Imagini și materiale</small></button>
+        <button class="tile" data-go="gallery"><span>▦</span><b>Galerie</b><small>Proiectele salvate</small></button>
+      </div>
+      <div class="notice"><b>Versiunea 0.1</b><p>Acesta este primul modul funcțional: organizare locală și construire de prompturi. Generarea AI va fi conectată într-o etapă următoare.</p></div>
+    </section>
+
+    <section id="view-creator" class="view">
+      <div class="page-title"><p class="eyebrow">CREAȚIE</p><h1>Prompt Studio</h1><p class="muted">Compune și salvează descrierea unei imagini.</p></div>
+      <label>Personaj<select id="promptCharacter"><option value="">Fără personaj selectat</option></select></label>
+      <label>Tipul imaginii<select id="promptType"><option>Fotografie editorială</option><option>Portret</option><option>Modă / fashion</option><option>Costum de baie / plajă</option><option>Fantasy</option><option>Fotografie cinematică</option></select></label>
+      <label>Ținută<input id="promptOutfit" placeholder="Ex.: rochie elegantă de seară"></label>
+      <label>Poziție<input id="promptPose" placeholder="Ex.: în picioare, privind peste umăr"></label>
+      <label>Decor<input id="promptScene" placeholder="Ex.: studio foto cu lumină caldă"></label>
+      <label>Detalii suplimentare<textarea id="promptDetails" rows="3" placeholder="Lumină, atmosferă, cadru, culori..."></textarea></label>
+      <div class="button-row"><button class="secondary" id="buildPrompt">Construiește promptul</button><button class="primary" id="savePrompt">Salvează</button></div>
+      <label>Prompt rezultat<textarea id="promptResult" rows="7" placeholder="Promptul construit va apărea aici..."></textarea></label>
+      <button class="secondary full" id="copyPrompt">Copiază promptul</button>
+      <p class="small muted">Notă: promptul este doar o descriere pregătită pentru un motor AI compatibil. Această versiune nu generează încă imagini.</p>
+    </section>
+
+    <section id="view-characters" class="view">
+      <div class="page-title"><p class="eyebrow">PERSONAJE</p><h1>Character Studio</h1><p class="muted">Creează fișe și organizează referințele vizuale.</p></div>
+      <form id="characterForm" class="panel">
+        <h3>Personaj nou</h3>
+        <label>Nume / identificator<input id="charName" required maxlength="60" placeholder="Ex.: Personajul meu"></label>
+        <label>Tip<select id="charKind"><option>Personaj fictiv</option><option>Persoană reală adultă</option></select></label>
+        <label>Note despre identitate<textarea id="charNotes" rows="2" placeholder="Detalii utile pentru continuitatea vizuală..."></textarea></label>
+        <button class="primary full" type="submit">＋ Adaugă personaj</button>
+      </form>
+      <div class="section-head"><h2>Personajele mele</h2><span class="muted" id="characterCount">0</span></div>
+      <div id="characterList" class="stack empty-state">Nu ai adăugat încă personaje.</div>
+    </section>
+
+    <section id="view-library" class="view">
+      <div class="page-title"><p class="eyebrow">REFERINȚE</p><h1>Reference Library</h1><p class="muted">Adaugă imagini și clasifică-le pentru fiecare personaj.</p></div>
+      <form id="referenceForm" class="panel">
+        <label>Personaj<select id="referenceCharacter" required><option value="">Alege un personaj</option></select></label>
+        <label>Categoria referinței<select id="referenceCategory"><option>Față</option><option>Siluetă / anatomie</option><option>Păr</option><option>Ținută</option><option>Poziție</option><option>Decor</option><option>Altă referință</option></select></label>
+        <label>Imagine<input id="referenceFile" type="file" accept="image/*" required></label>
+        <label>Descriere<input id="referenceDescription" maxlength="120" placeholder="Descriere scurtă (opțional)"></label>
+        <button class="primary full" type="submit">Adaugă în bibliotecă</button>
+      </form>
+      <div class="section-head"><h2>Imagini salvate</h2><span class="muted" id="referenceCount">0</span></div>
+      <div id="referenceList" class="media-grid empty-state">Biblioteca este goală.</div>
+    </section>
+
+    <section id="view-gallery" class="view">
+      <div class="page-title"><p class="eyebrow">ARHIVĂ</p><h1>My Gallery</h1><p class="muted">Prompturile și proiectele salvate pe acest dispozitiv.</p></div>
+      <div id="galleryList" class="stack empty-state">Nu ai salvat încă proiecte.</div>
+    </section>
+
+    <section id="view-settings" class="view">
+      <div class="page-title"><p class="eyebrow">APLICAȚIE</p><h1>Setări</h1><p class="muted">Datele din versiunea 0.1 sunt păstrate pe dispozitiv.</p></div>
+      <div class="panel">
+        <h3>Stocare</h3>
+        <p class="muted">Personajele și prompturile sunt salvate local. Imaginile sunt păstrate în baza de date locală a browserului.</p>
+        <button class="secondary full" id="exportData">Exportă datele (JSON)</button>
+        <label class="file-label">Importă backup JSON<input id="importData" type="file" accept="application/json"></label>
+      </div>
+      <div class="panel">
+        <h3>Despre Xena AI Studio</h3>
+        <p>Versiune 0.1 – prototip instalabil Android (PWA).</p>
+        <p class="small muted">Generarea și editarea efectivă a imaginilor, sincronizarea cloud și conturile vor fi dezvoltate ulterior. Nu încărca fotografii sensibile sau materiale pe care nu ai dreptul să le folosești.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item selected" data-go="home"><span>⌂</span><small>Acasă</small></button>
+    <button class="nav-item" data-go="creator"><span>✧</span><small>Creează</small></button>
+    <button class="nav-item" data-go="characters"><span>♙</span><small>Personaje</small></button>
+    <button class="nav-item" data-go="library"><span>▧</span><small>Bibliotecă</small></button>
+    <button class="nav-item" data-go="settings"><span>⚙</span><small>Setări</small></button>
+  </nav>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
